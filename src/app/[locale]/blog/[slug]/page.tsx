@@ -4,6 +4,7 @@ import { formatDate, getPosts } from '@/app/utils'
 import { Avatar, Button, Flex, Heading, Text } from '@/once-ui/components'
 
 import { person, baseURL } from '@/app/resources'
+import { unstable_setRequestLocale } from 'next-intl/server'
 
 interface BlogParams {
     params: { 
@@ -13,15 +14,25 @@ interface BlogParams {
 }
 
 export async function generateStaticParams() {
-	let posts = getPosts(['src', 'app', '[locale]', 'blog', 'posts', 'en'])
+    const locales = ['en', 'id']; // Add all supported locales
+    
+    // Create an array to store all posts from all locales
+    const allPosts = [];
 
-	return posts.map((post) => ({
-		slug: post.slug,
-	}))
+    // Fetch posts for each locale
+    for (const locale of locales) {
+        const posts = getPosts(['src', 'app', '[locale]', 'blog', 'posts', locale]);
+        allPosts.push(...posts.map(post => ({
+            slug: post.slug,
+            locale: locale,
+        })));
+    }
+
+    return allPosts;
 }
 
-export function generateMetadata({ params }: BlogParams) {
-	let post = getPosts(['src', 'app', '[locale]', 'blog', 'posts', 'en']).find((post) => post.slug === params.slug)
+export function generateMetadata({ params: { slug, locale } }: BlogParams) {
+	let post = getPosts(['src', 'app', '[locale]', 'blog', 'posts', locale]).find((post) => post.slug === slug)
 
 	if (!post) {
 		return
@@ -62,6 +73,7 @@ export function generateMetadata({ params }: BlogParams) {
 }
 
 export default function Blog({ params }: BlogParams) {
+	unstable_setRequestLocale(params.locale);
 	let post = getPosts(['src', 'app', '[locale]', 'blog', 'posts', params.locale]).find((post) => post.slug === params.slug)
 
 	if (!post) {

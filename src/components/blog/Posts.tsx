@@ -41,7 +41,7 @@ export function Posts({
                             }}
                             className={styles.hover}
                             key={post.slug}
-                            href={`/blog/${post.slug}`}>
+                            href={`/${locale}/blog/${post.slug}`}>
                             <Flex
                                 position="relative"
                                 paddingX="16" paddingY="12" gap="8"

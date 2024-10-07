@@ -62,7 +62,7 @@ export function generateMetadata({ params }: BlogParams) {
 }
 
 export default function Blog({ params }: BlogParams) {
-	let post = getPosts(['src', 'app', '[locale]', 'blog', 'posts', 'en']).find((post) => post.slug === params.slug)
+	let post = getPosts(['src', 'app', '[locale]', 'blog', 'posts', params.locale]).find((post) => post.slug === params.slug)
 
 	if (!post) {
 		notFound()

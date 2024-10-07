@@ -5,6 +5,7 @@ import { Avatar, Button, Flex, Heading, Text } from '@/once-ui/components'
 
 import { person, baseURL } from '@/app/resources'
 import { unstable_setRequestLocale } from 'next-intl/server'
+import { routing } from '@/i18n/routing';
 
 interface BlogParams {
     params: { 
@@ -14,7 +15,7 @@ interface BlogParams {
 }
 
 export async function generateStaticParams() {
-    const locales = ['en', 'id']; // Add all supported locales
+	const locales = routing.locales;
     
     // Create an array to store all posts from all locales
     const allPosts = [];
@@ -56,7 +57,7 @@ export function generateMetadata({ params: { slug, locale } }: BlogParams) {
 			description,
 			type: 'article',
 			publishedTime,
-			url: `https://${baseURL}/blog/${post.slug}`,
+			url: `https://${baseURL}/${locale}/blog/${post.slug}`,
 			images: [
 				{
 					url: ogImage,
@@ -99,7 +100,7 @@ export default function Blog({ params }: BlogParams) {
 						image: post.metadata.image
 							? `https://${baseURL}${post.metadata.image}`
 							: `https://${baseURL}/og?title=${post.metadata.title}`,
-							url: `https://${baseURL}/blog/${post.slug}`,
+							url: `https://${baseURL}/${params.locale}/blog/${post.slug}`,
 						author: {
 							'@type': 'Person',
 							name: person.name,
@@ -108,7 +109,7 @@ export default function Blog({ params }: BlogParams) {
 				}}
 			/>
 			<Button
-				href="/blog"
+				href={`/${params.locale}/blog`}
 				variant="tertiary"
 				size="s"
 				prefixIcon="chevronLeft">

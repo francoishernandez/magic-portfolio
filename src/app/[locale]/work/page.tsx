@@ -1,7 +1,7 @@
 import { getPosts } from '@/app/utils';
 import { Flex } from '@/once-ui/components';
 import { Projects } from '@/components/work/Projects';
-import { baseURL, person, work } from '../resources';
+import { baseURL, person, work } from '@/app/resources';
 
 export function generateMetadata() {
 	const title = work.title;
@@ -33,7 +33,7 @@ export function generateMetadata() {
 }
 
 export default function Work() {
-    let allProjects = getPosts(['src', 'app', 'work', 'projects']);
+    let allProjects = getPosts(['src', 'app', '[locale]', 'work', 'projects', 'en']);
 
     return (
         <Flex

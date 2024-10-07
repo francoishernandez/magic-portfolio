@@ -8,11 +8,12 @@ import { person, baseURL } from '@/app/resources'
 interface BlogParams {
     params: { 
         slug: string;
+		locale: string;
     };
 }
 
 export async function generateStaticParams() {
-	let posts = getPosts(['src', 'app', 'blog', 'posts'])
+	let posts = getPosts(['src', 'app', '[locale]', 'blog', 'posts', 'en'])
 
 	return posts.map((post) => ({
 		slug: post.slug,
@@ -20,7 +21,7 @@ export async function generateStaticParams() {
 }
 
 export function generateMetadata({ params }: BlogParams) {
-	let post = getPosts(['src', 'app', 'blog', 'posts']).find((post) => post.slug === params.slug)
+	let post = getPosts(['src', 'app', '[locale]', 'blog', 'posts', 'en']).find((post) => post.slug === params.slug)
 
 	if (!post) {
 		return
@@ -61,7 +62,7 @@ export function generateMetadata({ params }: BlogParams) {
 }
 
 export default function Blog({ params }: BlogParams) {
-	let post = getPosts(['src', 'app', 'blog', 'posts']).find((post) => post.slug === params.slug)
+	let post = getPosts(['src', 'app', '[locale]', 'blog', 'posts', 'en']).find((post) => post.slug === params.slug)
 
 	if (!post) {
 		notFound()

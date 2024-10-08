@@ -15,7 +15,7 @@ export async function generateMetadata(
 	{params: {locale}}: { params: { locale: string }}
 ) {
 	const t = await getTranslations();
-    const {home } = createContent(t);
+    const { home } = createContent(t);
 	const title = home.title;
 	const description = home.description;
 	const ogImage = `https://${baseURL}/og?title=${encodeURIComponent(title)}`;

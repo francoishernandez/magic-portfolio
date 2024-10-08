@@ -50,7 +50,10 @@ const createContent = (t) => {
         title: t("home.title", {name: person.name}),
         description: t("home.description", {role: person.role}),
         headline: <>{t("home.headline")}</>,
-        subline: <>{t.rich("home.subline", {placeholder: <InlineCode>FLY</InlineCode>})}</>
+        subline: <>{t.rich("home.subline", {
+            placeholder: <InlineCode>FLY</InlineCode>,
+            br: () => <br />
+        })}</>
     }
     
     const about = {
